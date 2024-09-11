@@ -1,0 +1,17 @@
+module siso(clk,rst,si,so );
+input clk,rst,si;
+output reg so;
+
+reg [3:0] temp;
+
+always@(posedge clk)
+begin
+    if(rst)
+        temp<=4'd0;// Clock-Triggered Shifting
+     else
+       begin
+        temp<={si,temp[3:1]};
+        so<=temp[0];//q[0]<=din; q[1]<=q[0];
+        end
+end
+endmodule
