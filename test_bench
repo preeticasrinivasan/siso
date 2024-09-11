@@ -1,0 +1,63 @@
+module siso_tb();
+reg clk,rst,si;
+wire so;
+
+parameter cycle=10;
+
+//mapping
+siso dut(.clk(clk),
+        .rst(rst),
+        .si(si),
+        .so(so)
+        );
+
+always
+    begin
+    clk=1'b0;
+    #(cycle/2);
+    clk=~clk;
+    #(cycle/2);
+    
+    end
+    
+task rst_din();
+ begin
+    @(negedge clk)
+    rst=1'b1;
+    @(negedge clk)
+    rst=1'b0;
+ end
+endtask
+
+task inputs(input s1);
+ begin
+ @(negedge clk)
+    si<=s1;
+  end
+endtask
+
+initial
+    begin
+        rst_din();
+        #10;
+        inputs(1);
+        #10;
+        inputs(0);
+        #10;
+        inputs(1);
+        #10;
+        inputs(0);
+        #10;
+        inputs(1);
+        #10;
+        inputs(0);
+        #10;
+        inputs(1);
+        #10;
+        inputs(0);
+        #100;
+        
+     end
+endmodule
+    
+    
